@@ -30,7 +30,7 @@ public:
     }
 
     // Add a subscriber (avoid duplicates)
-    void subscribe(ISubscriber* subscriber) override {
+    void subscribe(ISubscriber *subscriber) override {
         if (find(subscribers.begin(), subscribers.end(), subscriber) == subscribers.end()) {
             subscribers.push_back(subscriber);
         }
@@ -46,7 +46,7 @@ public:
 
     // Notify all subscribers of the latest video
     void notifySubscribers() override {
-        for (ISubscriber* sub : subscribers) {
+        for (ISubscriber *sub : subscribers) {
             sub->update();
         }
     }
@@ -68,7 +68,7 @@ public:
 class Subscriber : public ISubscriber {
 private:
     string name;
-    Channel* channel;
+    Channel *channel;
 public:
     Subscriber(const string& name, Channel* channel) {
         this->name = name;
@@ -83,10 +83,10 @@ public:
 
 int main() {
     // Create a channel and subscribers
-    Channel* channel = new Channel("CoderArmy");
+    Channel *channel = new Channel("CoderArmy");
 
-    Subscriber* subs1 = new Subscriber("Varun", channel);
-    Subscriber* subs2 = new Subscriber("Tarun", channel);
+    Subscriber *subs1 = new Subscriber("Varun", channel);
+    Subscriber *subs2 = new Subscriber("Tarun", channel);
 
     // Varun and Tarun subscribe to CoderArmy
     channel->subscribe(subs1);
