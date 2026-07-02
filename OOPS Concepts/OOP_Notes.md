@@ -187,6 +187,118 @@ Think of a **Payment Gateway**:
 - Same method: `pay()`
 - Different behavior based on the payment type selected at runtime.
 
+#### Example without virtual
+```#include <iostream>
+using namespace std;
+
+class Animal {
+public:
+    void sound() {
+        cout << "Animal makes sound" << endl;
+    }
+};
+
+class Dog : public Animal {
+public:
+    void sound() {
+        cout << "Dog barks" << endl;
+    }
+};
+
+int main() {
+
+    Animal* a = new Dog();
+
+    a->sound();
+
+    return 0;
+}
+
+```
+##### Output : Animal makes sound
+
+##### Why?
+
+- Because sound() is not virtual.
+- The compiler sees that a is an Animal*, so it calls Animal::sound().
+- This is not runtime polymorphism.
+
+#### Example With virtual
+
+``` #include <iostream>
+using namespace std;
+
+class Animal {
+public:
+    virtual void sound() {
+        cout << "Animal makes sound" << endl;
+    }
+};
+
+class Dog : public Animal {
+public:
+    void sound() override {
+        cout << "Dog barks" << endl;
+    }
+};
+
+int main() {
+
+    Animal* a = new Dog();
+
+    a->sound();
+
+    return 0;
+}
+```
+###### Output : Dog barks
+- Now C++ checks at runtime:
+  - What object is actually stored?
+  - It finds a Dog object.
+  - Therefore it calls Dog::sound().
+- This is Runtime Polymorphism.
+
+#### Real-Life Interview Example 
+``` #include <iostream>
+using namespace std;
+
+class Payment {
+public:
+    virtual void pay() {
+        cout << "Generic Payment" << endl;
+    }
+};
+
+class UPI : public Payment {
+public:
+    void pay() override {
+        cout << "Payment through UPI" << endl;
+    }
+};
+
+class CreditCard : public Payment {
+public:
+    void pay() override {
+        cout << "Payment through Credit Card" << endl;
+    }
+};
+
+int main() {
+
+    Payment* p;
+
+    UPI u;
+    CreditCard c;
+
+    p = &u;
+    p->pay();
+
+    p = &c;
+    p->pay();
+
+    return 0;
+}
+```
 ---
 
 ##  Important Interview Notes
